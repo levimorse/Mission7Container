@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mission7.Models;
+using Mission7.Models.ViewModels;
 
 namespace Mission7.Controllers
 {
@@ -13,14 +15,36 @@ namespace Mission7.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private IBookstoreRepository repo;
+
+        public HomeController(ILogger<HomeController> logger, IBookstoreRepository temp)
         {
             _logger = logger;
+
+            repo = temp;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int pageNum = 1)
         {
-            return View();
+            int pageSize = 10;
+
+            var b = new BooksViewModel
+            {
+                Books = repo.Books
+                .OrderBy(x => x.Title)
+                .Skip((pageNum * pageSize) - pageSize)
+                .Take(pageSize),
+
+                PageInfo = new PageInfo
+                {
+                    TotalNumBooks = repo.Books.Count(),
+                    BooksPerPage = pageSize,
+                    CurrentPage = pageNum
+                }
+            };
+            
+            return View(b);
+            
         }
 
         public IActionResult Privacy()
