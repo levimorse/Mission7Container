@@ -44,7 +44,7 @@ namespace Mission7.Controllers
                     CurrentPage = pageNum
                 }
             };
-            
+
             return View(b);
             
         }
