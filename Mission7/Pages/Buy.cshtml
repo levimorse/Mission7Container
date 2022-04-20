@@ -24,6 +24,15 @@
                 <td>@x.Quantity</td>
                 <td>$@x.Book.Price</td>
                 <td>$@(x.Quantity * x.Book.Price)</td>
+
+                <td class="text-center">
+                    <form method="post" asp-page-handler="Remove">
+                        <input type="hidden" name="bookId" value="@x.Book.BookId" />
+                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                        <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                    </form>
+                </td>
+
             </tr>
         }
     </tbody>
