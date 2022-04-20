@@ -1,0 +1,43 @@
+﻿@page
+@model Mission7.Pages.BuyModel
+@{
+}
+
+<h2>Your Cart</h2>
+
+<table class="table table-bordered table-striped">
+
+    <thead class="font-weight-bold">
+        <tr>
+            <td>Book</td>
+            <td>Quantity</td>
+            <td>Cost</td>
+            <td>Subtotal</td>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var x in Model.basket.Items)
+        {
+            <tr>
+                <td>@x.Book.Title</td>
+                <td>@x.Quantity</td>
+                <td>$@x.Book.Price</td>
+                <td>$@(x.Quantity * x.Book.Price)</td>
+            </tr>
+        }
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td colspan="3">Total:</td>
+            <td>$@Model.basket.CalculateTotal().ToString("0.00")</td>
+            @*<td>@Model.basket.CalculateTotal()</td>*@
+        </tr>
+    </tfoot>
+
+</table>
+
+<div>
+    <a class="btn btn-primary" href="@Model.ReturnUrl">Continue Shopping</a>
+</div>
